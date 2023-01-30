@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Version 1.0
+REM Version 1.1.1
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
@@ -66,7 +66,6 @@ findstr "Page not found" %COMPUTERNAME%Update%YEARMONTH%.txt
 if "%errorlevel%"=="0" (
 	echo looks like there was no update file to flag for an update >> diag.txt
 	REM Page not found in document was successful meaning that there was not an update file so the the download and replacement of the new script is not required.
-	EXIT /b
 ) else (
 	REM The document didn't contain Page not found so there should be a new script and it is now time to download it.
 	echo Looks like there is an update to to rename all files and update >> diag.txt
