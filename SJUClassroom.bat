@@ -6,6 +6,8 @@ REM Version 1.0
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
+REM Added a timeout of 10 seconds as the update process was failing occasionally after setting network up as it didn't resoved to github occasionally
+
 
 
 
@@ -55,28 +57,38 @@ REM Once the file is downloaded a check via findstr "Page not found" %PCNAME%Upd
 REM If there is an update file the new file will need to be downloaded in the format of %PCNAME%SJUClassroom.bat
 REM once the file is downloaded it will need to be renamed to SJUClassroom.bat after renaming the old script to SJUClassroom%DT%.bat
 REM Lastly the new script will need to be copied to replace the script in all 3 locations
-curl -LJOs  https://%GITHUBKEY%@github.com/tait-kelly/Classroomimaging/raw/main/%COMPUTERNAME%Update%YEARMONTH%.txt > NUL
+timeout /t 10
+if EXIST %COMPUTERNAME%Update%YEARMONTH%.txt del %COMPUTERNAME%Update%YEARMONTH%.txt
+echo I am in the autoupdate section >diag.txt
+curl -LJO https://%GITHUBKEY%@github.com/tait-kelly/Classroomimaging/raw/main/%COMPUTERNAME%Update%YEARMONTH%.txt
+echo I just curled the file >> diag.txt
 findstr "Page not found" %COMPUTERNAME%Update%YEARMONTH%.txt
 if "%errorlevel%"=="0" (
+	echo looks like there was no update file to flag for an update >> diag.txt
 	REM Page not found in document was successful meaning that there was not an update file so the the download and replacement of the new script is not required.
+	EXIT /b
 ) else (
 	REM The document didn't contain Page not found so there should be a new script and it is now time to download it.
-	
+	echo Looks like there is an update to to rename all files and update >> diag.txt
 	rename c:\Widnows\SJUclass\SJUClassroom.bat c:\Windows\SJUClass\SJUClassroom%dt%.bat
+	echo time to run rename c:\Widnows\SJUclass\SJUClassroom.bat c:\Windows\SJUClass\SJUClassroom%dt%.bat >> diag.txt
 	rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom%dt%.bat
 	rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom%dt%.bat
 	curl -LJOs  https://%GITHUBKEY%@github.com/tait-kelly/Classroomimaging/raw/main/SJUClassroom.bat > NUL
 	copy SJUClassroom.bat c:\Widnows\SJUclass\SJUClassroom.bat
 	copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat
+	echo Updates should be completed now >> diag.txt
 )
+if EXIST %COMPUTERNAME%Update%YEARMONTH%.txt del %COMPUTERNAME%Update%YEARMONTH%.txt
+PAUSE
 EXIT /b
 
 :STARTUP
+call:SETNETWORK
 call:RESTOREBROWSERS
 call:CLEARDESKTOP
 call:CLEARDOCUMENTS
 call:CLEARDOWNLOADS
-call:SETNETWORK
 call:CHECKMONITORCONFIG
 call:AUTOUPDATE
 EXIT /b
