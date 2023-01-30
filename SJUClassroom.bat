@@ -71,14 +71,13 @@ if "%errorlevel%"=="0" (
 	echo Looks like there is an update to to rename all files and update >> diag.txt
 	echo time to rename the old scripts to SJUClassroom%dt%.bat
 	rename c:\Windows\SJUclass\SJUClassroom.bat SJUClassroom%dt%.bat
-	PAUSE
 	echo time to run rename c:\Widnows\SJUclass\SJUClassroom.bat c:\Windows\SJUClass\SJUClassroom%dt%.bat >> diag.txt
 	rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat SJUClassroom%dt%.bat
-	PAUSE
 	rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat SJUClassroom%dt%.bat
-	PAUSE
 	curl -LJOs  https://%GITHUBKEY%@github.com/tait-kelly/Classroomimaging/raw/main/SJUClassroom.bat > NUL
+	echo copy to sjuclass
 	copy SJUClassroom.bat c:\Widnows\SJUclass\SJUClassroom.bat
+	echo copy to shutdown
 	copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat
 	echo Updates should be completed now >> diag.txt
 )
