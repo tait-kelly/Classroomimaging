@@ -69,7 +69,7 @@ if "%errorlevel%"=="0" (
 ) else (
 	REM The document didn't contain Page not found so there should be a new script and it is now time to download it.
 	echo Looks like there is an update to to rename all files and update >> diag.txt
-	rename c:\Widnows\SJUclass\SJUClassroom.bat c:\Windows\SJUClass\SJUClassroom%dt%.bat
+	rename c:\Windows\SJUclass\SJUClassroom.bat c:\Windows\SJUClass\SJUClassroom%dt%.bat
 	echo time to run rename c:\Widnows\SJUclass\SJUClassroom.bat c:\Windows\SJUClass\SJUClassroom%dt%.bat >> diag.txt
 	rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom%dt%.bat
 	rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom%dt%.bat
