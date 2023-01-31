@@ -2,11 +2,12 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Version 1.1.1
+REM Version 1.1.2
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
-REM Added a timeout of 10 seconds as the update process was failing occasionally after setting network up as it didn't resoved to github occasionally
+REM v1.1.1 Added a timeout of 10 seconds as the update process was failing occasionally after setting network up as it didn't resoved to github occasionally
+REM v1.1.2 Moved update into a self contained update bat that gets created on startup script and then scheduled to run 2 minutes after the start script runs
 
 
 
@@ -20,6 +21,7 @@ set today=%dt%
 set currhour=%dt:~8,2%
 set currmin=%dt:~10,2%
 set YEARMONTH=%dt:~0,6%
+set /a updatemin=%currmin% + 2
 REM echo current extracted time is:%currhour%:%currmin%:
 set targethour=88
 set targetmin=88
@@ -27,7 +29,9 @@ if "%currmin%"=="55" set targetmin=00
 if "%currmin%"=="56" set targetmin=01
 if "%currmin%"=="57" set targetmin=02
 if "%currmin%"=="58" set targetmin=03
+if "%currmin%"=="58" set updatemin=00
 if "%currmin%"=="59" set targetmin=04
+if "%currmin%"=="59" set updatemin=01
 if "%currmin%"=="00" set /a targethour=%currhour% + 1
 if "%targethour%"=="88" set targethour=%currhour%
 if "%targetmin%"=="88" set /a "targetmin=%currmin% + 5"
@@ -70,16 +74,15 @@ if "%errorlevel%"=="0" (
 	REM The document didn't contain Page not found so there should be a new script and it is now time to download it.
 	echo Looks like there is an update to to rename all files and update >> diag.txt
 	echo time to rename the old scripts to SJUClassroom%dt%.bat
-	rename c:\Windows\SJUclass\SJUClassroom.bat SJUClassroom%dt%.bat
-	echo time to run rename c:\Widnows\SJUclass\SJUClassroom.bat c:\Windows\SJUClass\SJUClassroom%dt%.bat >> diag.txt
-	rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat SJUClassroom%dt%.bat
-	rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat SJUClassroom%dt%.bat
-	curl -LJOs  https://%GITHUBKEY%@github.com/tait-kelly/Classroomimaging/raw/main/SJUClassroom.bat > NUL
-	echo copy to sjuclass
-	copy SJUClassroom.bat c:\Widnows\SJUclass\SJUClassroom.bat
-	echo copy to shutdown
-	copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat
-	echo Updates should be completed now >> diag.txt
+	echo rename c:\Windows\SJUclass\SJUClassroom.bat SJUClassroom%dt%.bat > C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
+	echo rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat SJUClassroom%dt%.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
+	echo rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat SJUClassroom%dt%.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
+	echo curl -LJO  https://%GITHUBKEY%@github.com/tait-kelly/Classroomimaging/raw/main/SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
+	echo copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
+	echo copy SJUClassroom.bat c:\Windows\SJUclass\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
+	echo copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
+	echo time to set a schedule with schtasks /Create /SC "ONCE" /TN "Self Update" /RU SYSTEM /F /TR "C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat" /ST %targethour%:%updatemin%
+	schtasks /Create /SC "ONCE" /TN "Self Update" /RU SYSTEM /F /TR "C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat" /ST %targethour%:%updatemin%
 )
 if EXIST %COMPUTERNAME%Update%YEARMONTH%.txt del %COMPUTERNAME%Update%YEARMONTH%.txt
 PAUSE
