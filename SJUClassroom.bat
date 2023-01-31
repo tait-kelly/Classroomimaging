@@ -2,14 +2,14 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Version 1.1.3
+REM Version 1.1.4
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
 REM v1.1.1 Added a timeout of 10 seconds as the update process was failing occasionally after setting network up as it didn't resoved to github occasionally
 REM v1.1.2 Moved update into a self contained update bat that gets created on startup script and then scheduled to run 2 minutes after the start script runs
 REM v1.1.3 Discovered issue when current minute is 00 then it is setting the update minute to 2 which is not proper formatting and needs to be 02 added condition to catch that and fix
-
+REM v1.1.4 Testing update fixes for the minute timing 
 
 
 REM Planning / impovements
