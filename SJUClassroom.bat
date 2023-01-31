@@ -21,7 +21,7 @@ set today=%dt%
 set currhour=%dt:~8,2%
 set currmin=%dt:~10,2%
 set YEARMONTH=%dt:~0,6%
-set /a updatemin=%currmin% + 2
+set /a "updatemin=%currmin% + 2"
 REM echo current extracted time is:%currhour%:%currmin%:
 set targethour=88
 set targetmin=88
@@ -33,6 +33,13 @@ if "%currmin%"=="58" set updatemin=00
 if "%currmin%"=="59" set targetmin=04
 if "%currmin%"=="59" set updatemin=01
 if "%currmin%"=="00" set updatemin=02
+if "%currmin%"=="01" set updatemin=03
+if "%currmin%"=="02" set updatemin=04
+if "%currmin%"=="03" set updatemin=05
+if "%currmin%"=="04" set updatemin=06
+if "%currmin%"=="05" set updatemin=07
+if "%currmin%"=="06" set updatemin=08
+if "%currmin%"=="07" set updatemin=09
 if "%currmin%"=="00" set /a targethour=%currhour% + 1
 if "%targethour%"=="88" set targethour=%currhour%
 if "%targetmin%"=="88" set /a "targetmin=%currmin% + 5"
