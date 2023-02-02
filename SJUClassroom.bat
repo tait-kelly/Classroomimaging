@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Version 1.1.4
+REM Current Version 1.1.6
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
@@ -10,7 +10,8 @@ REM v1.1.1 Added a timeout of 10 seconds as the update process was failing occas
 REM v1.1.2 Moved update into a self contained update bat that gets created on startup script and then scheduled to run 2 minutes after the start script runs
 REM v1.1.3 Discovered issue when current minute is 00 then it is setting the update minute to 2 which is not proper formatting and needs to be 02 added condition to catch that and fix
 REM v1.1.4 Testing update fixes for the minute timing 
-
+REM v1.1.5 Noticed and issue in that when it is the hour flip the correct hour is not being used so fixed that.
+REM v1.1.6 Removing any logging that is no longer needed.
 
 REM Planning / impovements
 REM 
@@ -22,16 +23,38 @@ set currhour=%dt:~8,2%
 set currmin=%dt:~10,2%
 set YEARMONTH=%dt:~0,6%
 set /a "updatemin=%currmin% + 2"
+set /a updatehour=%currhour% 
 echo current extracted time is:%currhour%:%currmin%:
 set targethour=88
 set targetmin=88
-if "%currmin%"=="55" set targetmin=00
-if "%currmin%"=="56" set targetmin=01
-if "%currmin%"=="57" set targetmin=02
-if "%currmin%"=="58" set targetmin=03
-if "%currmin%"=="58" set updatemin=00
-if "%currmin%"=="59" set targetmin=04
-if "%currmin%"=="59" set updatemin=01
+if "%currmin%"=="55" (
+	set targetmin=00
+	set /a targethour=%currhour% + 1
+)
+if "%currmin%"=="56" (
+	set targetmin=01
+	set /a targethour=%currhour% + 1
+)
+if "%currmin%"=="57" (
+	set targetmin=02
+	set /a targethour=%currhour% + 1
+)
+if "%currmin%"=="58" (
+	set targetmin=03
+	set /a targethour=%currhour% + 1
+)
+if "%currmin%"=="58" (
+	set updatemin=00
+	set /a targethour=%currhour% + 1
+)
+if "%currmin%"=="59" (
+	set targetmin=04
+	set /a targethour=%currhour% + 1
+)
+if "%currmin%"=="59" (
+	set updatemin=01
+	set /a updatehour=%currhour% + 1
+)
 if "%currmin%"=="00" set updatemin=02
 if "%currmin%"=="01" set updatemin=03
 if "%currmin%"=="02" set updatemin=04
@@ -71,16 +94,16 @@ REM once the file is downloaded it will need to be renamed to SJUClassroom.bat a
 REM Lastly the new script will need to be copied to replace the script in all 3 locations
 timeout /t 10
 if EXIST %COMPUTERNAME%Update%YEARMONTH%.txt del %COMPUTERNAME%Update%YEARMONTH%.txt
-echo I am in the autoupdate section >diag.txt
+REM v1.1.6 echo I am in the autoupdate section >diag.txt
 curl -LJO https://%GITHUBKEY%@github.com/tait-kelly/Classroomimaging/raw/main/%COMPUTERNAME%Update%YEARMONTH%.txt
-echo I just curled the file >> diag.txt
+REM v1.1.6 echo I just curled the file >> diag.txt
 findstr "Page not found" %COMPUTERNAME%Update%YEARMONTH%.txt
 if "%errorlevel%"=="0" (
-	echo looks like there was no update file to flag for an update >> diag.txt
+	REM v1.1.6 echo looks like there was no update file to flag for an update >> diag.txt
 	REM Page not found in document was successful meaning that there was not an update file so the the download and replacement of the new script is not required.
 ) else (
 	REM The document didn't contain Page not found so there should be a new script and it is now time to download it.
-	echo Looks like there is an update to to rename all files and update >> diag.txt
+	REM v1.1.6 echo Looks like there is an update to to rename all files and update >> diag.txt
 	echo time to rename the old scripts to SJUClassroom%dt%.bat
 	echo rename c:\Windows\SJUclass\SJUClassroom.bat SJUClassroom%dt%.bat > C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
 	echo rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat SJUClassroom%dt%.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
@@ -89,8 +112,8 @@ if "%errorlevel%"=="0" (
 	echo copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
 	echo copy SJUClassroom.bat c:\Windows\SJUclass\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
 	echo copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
-	echo time to set a schedule with schtasks /Create /SC "ONCE" /TN "Self Update" /RU SYSTEM /F /TR "C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat" /ST %targethour%:%updatemin%
-	schtasks /Create /SC "ONCE" /TN "Self Update" /RU SYSTEM /F /TR "C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat" /ST %targethour%:%updatemin%
+	echo time to set a schedule with schtasks /Create /SC "ONCE" /TN "Self Update" /RU SYSTEM /F /TR "C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat" /ST %updatehour%:%updatemin%
+	schtasks /Create /SC "ONCE" /TN "Self Update" /RU SYSTEM /F /TR "C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat" /ST %updatehour%:%updatemin%
 )
 if EXIST %COMPUTERNAME%Update%YEARMONTH%.txt del %COMPUTERNAME%Update%YEARMONTH%.txt
 PAUSE
