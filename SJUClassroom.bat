@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Current Version 1.1.6
+REM Current Version 1.1.7
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
@@ -12,6 +12,7 @@ REM v1.1.3 Discovered issue when current minute is 00 then it is setting the upd
 REM v1.1.4 Testing update fixes for the minute timing 
 REM v1.1.5 Noticed and issue in that when it is the hour flip the correct hour is not being used so fixed that.
 REM v1.1.6 Removing any logging that is no longer needed.
+REM V1.1.7 Fixed IP assignments for new machines and new names
 
 REM Planning / impovements
 REM 
@@ -208,8 +209,8 @@ if %computername%==SJULIB14 set IP_Addr=172.17.6.23
 
 if %computername%==SJ1-LAB2023 set IP_Addr=172.17.6.178
 if %computername%==SJ2-1002 set IP_Addr=172.17.6.48
-if %computername%==SJ2-1004a set IP_Addr=172.17.6.101
-if %computername%==SJ2-1004b set IP_Addr=172.17.6.99
+if %computername%==SJ2-1004A set IP_Addr=172.17.6.101
+if %computername%==SJ2-1004B set IP_Addr=172.17.6.99
 if %computername%==SJ2-2001 set IP_Addr=172.17.6.88
 if %computername%==SJ2-2002 set IP_Addr=172.17.6.58
 if %computername%==SJ2-2003 set IP_Addr=172.17.6.78
