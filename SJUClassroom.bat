@@ -164,6 +164,8 @@ EXIT /b
 
 :SETNETWORK
 set IP_Addr=172.17.6.39
+
+REM OLD Designations
 if %computername%==AB1002 set IP_Addr=172.17.6.48
 if %computername%==AB1004a set IP_Addr=172.17.6.101
 if %computername%==AB1004b (
@@ -185,8 +187,10 @@ if %computername%==SJ1-3015 set IP_Addr=172.17.6.218
 if %computername%==SJ1-3016 set IP_Addr=172.17.6.228
 if %computername%==SJ1-3020 set IP_Addr=172.17.6.238
 if %computername%==SJ1-3027 set IP_Addr=172.17.6.248
-
 if %computername%==SJUBOARD set IP_Addr=172.17.6.128
+REM End Old designations
+
+
 if %computername%==SJULIB01 set IP_Addr=172.17.6.10
 if %computername%==SJULIB02 set IP_Addr=172.17.6.11
 if %computername%==SJULIB03 set IP_Addr=172.17.6.12
@@ -203,6 +207,27 @@ if %computername%==SJULIB13 set IP_Addr=172.17.6.22
 if %computername%==SJULIB14 set IP_Addr=172.17.6.23
 
 if %computername%==SJ1-LAB2023 set IP_Addr=172.17.6.178
+if %computername%==SJ2-1002 set IP_Addr=172.17.6.48
+if %computername%==SJ2-1004a set IP_Addr=172.17.6.101
+if %computername%==SJ2-1004b set IP_Addr=172.17.6.99
+if %computername%==SJ2-2001 set IP_Addr=172.17.6.88
+if %computername%==SJ2-2002 set IP_Addr=172.17.6.58
+if %computername%==SJ2-2003 set IP_Addr=172.17.6.78
+if %computername%==SJ2-2007 set IP_Addr=172.17.6.68
+if %computername%==SJ1-2009 set IP_Addr=172.17.6.148
+if %computername%==SJ1-2011 set IP_Addr=172.17.6.168
+if %computername%==SJ1-3012 set IP_Addr=172.17.6.188
+if %computername%==SJ1-3013 set IP_Addr=172.17.6.198
+if %computername%==SJ1-3014 set IP_Addr=172.17.6.208
+if %computername%==SJ1-3015 set IP_Addr=172.17.6.218
+if %computername%==SJ1-3016 set IP_Addr=172.17.6.228
+if %computername%==SJ1-3020 set IP_Addr=172.17.6.238
+if %computername%==SJ1-3027 set IP_Addr=172.17.6.248
+if %computername%==SH-BOARDROOM set IP_Addr=172.17.6.128
+if %computername%==SJ1-CHAPEL set IP_Addr=172.17.6.138
+
+
+
 
 
 REM echo "Setting Static IP Information" 
