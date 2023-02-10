@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Current Version 1.1.9
+REM Current Version 1.1.9.test
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
