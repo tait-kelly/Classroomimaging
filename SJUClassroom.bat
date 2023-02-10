@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Current Version 1.1.11
+REM Current Version 1.1.12
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
@@ -17,12 +17,13 @@ REM v1.1.8 Fixed issue with cloned different hardware not identifying NIC as sam
 REM v1.1.9 Fixed an issue with the update hour not being set correctly
 REM v1.1.10 issue with github grab testing.
 REM v1.1.11 Fixed github grab
+REM v1.1.12 Replaced Gihub token with new one
 
 REM Planning / impovements
 REM 
 
 for /f "delims=." %%a in ('wmic OS Get localdatetime ^| find "."') do set dt=%%a
-set GITHUBKEY=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
+set GITHUBKEY=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
 set today=%dt%
 set currhour=%dt:~8,2%
 set currmin=%dt:~10,2%
