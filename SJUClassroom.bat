@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Current Version 1.1.10
+REM Current Version 1.1.11
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
@@ -16,6 +16,7 @@ REM V1.1.7 Fixed IP assignments for new machines and new names
 REM v1.1.8 Fixed issue with cloned different hardware not identifying NIC as same name and removed pause from script
 REM v1.1.9 Fixed an issue with the update hour not being set correctly
 REM v1.1.10 issue with github grab testing.
+REM v1.1.11 Fixed github grab
 
 REM Planning / impovements
 REM 
@@ -112,7 +113,7 @@ if "%errorlevel%"=="0" (
 	echo rename c:\Windows\SJUclass\SJUClassroom.bat SJUClassroom%dt%.bat > C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
 	echo rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat SJUClassroom%dt%.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
 	echo rename C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat SJUClassroom%dt%.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
-	echo curl -LJO  https://%GITHUBKEY%@github.com/tait-kelly/Classroomimaging/raw/main/SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
+	echo curl -LJo SJUClassroom.bat https://raw.githubusercontent.com/tait-kelly/Classroomimaging/main/SJUClassroom.bat?token=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 >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
 	echo copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
 	echo copy SJUClassroom.bat c:\Windows\SJUclass\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
 	echo copy SJUClassroom.bat C:\Windows\System32\GroupPolicy\Machine\Scripts\Shutdown\SJUClassroom.bat >> C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat
