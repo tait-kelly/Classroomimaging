@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Current Version 1.1.7
+REM Current Version 1.1.8
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
@@ -13,6 +13,7 @@ REM v1.1.4 Testing update fixes for the minute timing
 REM v1.1.5 Noticed and issue in that when it is the hour flip the correct hour is not being used so fixed that.
 REM v1.1.6 Removing any logging that is no longer needed.
 REM V1.1.7 Fixed IP assignments for new machines and new names
+REM v1.1.8 Fixed issue with cloned different hardware not identifying NIC as same name and removed pause from script
 
 REM Planning / impovements
 REM 
@@ -117,7 +118,6 @@ if "%errorlevel%"=="0" (
 	schtasks /Create /SC "ONCE" /TN "Self Update" /RU SYSTEM /F /TR "C:\Windows\System32\GroupPolicy\Machine\Scripts\Startup\selfupdate.bat" /ST %updatehour%:%updatemin%
 )
 if EXIST %COMPUTERNAME%Update%YEARMONTH%.txt del %COMPUTERNAME%Update%YEARMONTH%.txt
-PAUSE
 EXIT /b
 
 :STARTUP
@@ -239,6 +239,12 @@ REM echo primary dns
 netsh interface ipv4 set dnsservers name="SJULAN" static 129.97.2.1 primary no 
 REM echo secondary dns
 netsh interface ipv4 add dnsservers name="SJULAN" 129.97.2.2 index=2 no
+
+netsh interface ipv4 set address name="SJULAN1" static %IP_Addr% 255.255.255.0 172.17.6.1 
+REM echo primary dns 
+netsh interface ipv4 set dnsservers name="SJULAN1" static 129.97.2.1 primary no 
+REM echo secondary dns
+netsh interface ipv4 add dnsservers name="SJULAN1" 129.97.2.2 index=2 no
 EXIT /b
 
 
