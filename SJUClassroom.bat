@@ -16,7 +16,7 @@ REM V1.1.7 Fixed IP assignments for new machines and new names
 REM v1.1.8 Fixed issue with cloned different hardware not identifying NIC as same name and removed pause from script
 REM v1.1.9 Fixed an issue with the update hour not being set correctly
 REM v1.1.10 issue with github grab testing.
-REM v1.1.11 Fixed github grab
+REM v1.1.11 Fixed github grab Maybe
 
 REM Planning / impovements
 REM 
