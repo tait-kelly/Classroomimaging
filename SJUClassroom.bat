@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Current Version 1.1.8
+REM Current Version 1.1.9
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
@@ -14,6 +14,7 @@ REM v1.1.5 Noticed and issue in that when it is the hour flip the correct hour i
 REM v1.1.6 Removing any logging that is no longer needed.
 REM V1.1.7 Fixed IP assignments for new machines and new names
 REM v1.1.8 Fixed issue with cloned different hardware not identifying NIC as same name and removed pause from script
+REM v1.1.9 Fixed an issue with the update hour not being set correctly
 
 REM Planning / impovements
 REM 
@@ -25,7 +26,7 @@ set currhour=%dt:~8,2%
 set currmin=%dt:~10,2%
 set YEARMONTH=%dt:~0,6%
 set /a "updatemin=%currmin% + 2"
-set /a updatehour=%currhour% 
+set updatehour=%currhour% 
 echo current extracted time is:%currhour%:%currmin%:
 set targethour=88
 set targetmin=88
