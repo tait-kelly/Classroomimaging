@@ -2,7 +2,7 @@
 REM Classroom Master Script
 REM Replacing ClassroomAlerts.bat Version 2.0
 
-REM Current Version 1.1.9.test
+REM Current Version 1.1.10
 
 REM VERSION 1.1
 REM Added in automatic update functionality into script. Files are updated via a pull from Github and will check it a new script is availible and then download and replace as needed.
@@ -15,6 +15,7 @@ REM v1.1.6 Removing any logging that is no longer needed.
 REM V1.1.7 Fixed IP assignments for new machines and new names
 REM v1.1.8 Fixed issue with cloned different hardware not identifying NIC as same name and removed pause from script
 REM v1.1.9 Fixed an issue with the update hour not being set correctly
+REM v1.1.10 issue with github grab testing.
 
 REM Planning / impovements
 REM 
